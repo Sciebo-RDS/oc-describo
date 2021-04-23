@@ -99,6 +99,59 @@ class PageController extends Controller
         );
     }
 
+    private function describoSession()
+    {
+        $url = $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000") . "/api/session/application";
+        $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", "describo"));
+
+        $user = \OC::$server->getUserSession()->getUser();
+        $data = [
+            "eMail" => $user->getEMailAddress(),
+            "userName" => $user->getUserName(),
+            "displayName" => $user->getDisplayName(),
+            "accountId" => $user->getAccountId(),
+            "UID" => $user->getUID(),
+            "lastLogin" => $user->getLastLogin(),
+            "home" => $user->getHome(),
+            "avatarImage" => $user->getAvatarImage($user),
+            "quota" => $user->getQuota(),
+            "searchTerms" => $user->getSearchTerms(),
+            "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
+            "expires_on" => $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1)
+        ];
+
+        $payload = json_encode([
+            "email" => $data["eMail"],
+            "name" => $data["userName"],
+            "session" => $data
+        ]);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        $headers = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer: ' .  $client->getSecret()
+        );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        var_dump($httpcode);
+        var_dump($server_output);
+        var_dump($payload);
+        print(curl_error($ch));
+        curl_close($ch);
+
+        $response = json_decode($server_output);
+        $this->config->setUserValue($this->userId, $this->appName, "descSessionId", $response["sessionId"]);
+        return $response["sessionId"];
+    }
+
     /**
      * @NoCSRFRequired
      * @NoAdminRequired
@@ -136,6 +189,8 @@ class PageController extends Controller
                     if (!$token->hasExpired()) {
                         $access_token = $token->getToken();
                     } else {
+                        $_SERVER["PHP_AUTH_USER"] = $client->getIdentifier();
+                        $_SERVER["PHP_AUTH_PW"] = $client->getSecret();
                         $redirect = true;
                         foreach ($this->refreshTokenMapper->findAll() as $token) {
                             if ($token->getClientId() == $clientId && $token->getUserId() == $this->userId) {
@@ -167,6 +222,7 @@ class PageController extends Controller
             }
         }
 
+        $iframeUrl .= "?sid=" . $this->describoSession();
         return new TemplateResponse('describo', "main.research", ["iframeSource" => $iframeUrl]);
     }
 }
