@@ -186,7 +186,7 @@ class PageController extends Controller
 
             foreach ($this->accessTokenMapper->findAll() as $token) {
                 if ($token->getClientId() == $clientId && $token->getUserId() == $this->userId) {
-                    if (!$token->hasExpired()) {
+                    if (\time() - intval($token->getExpires()) < 300) {
                         $access_token = $token->getToken();
                     } else {
                         $_SERVER["PHP_AUTH_USER"] = $client->getIdentifier();
