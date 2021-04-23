@@ -105,7 +105,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $iframeUrl = $this->config->getAppValue($this->appName, "cloudURL", "http://localhost:8080");
+        $iframeUrl = $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000");
         $url = parse_url($iframeUrl);
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
         $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];

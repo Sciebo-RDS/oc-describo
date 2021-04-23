@@ -55,7 +55,7 @@ class AdminPanel implements ISettings
     {
         $userId = $this->userSession->getUser()->getUID();
         $t = new Template($this->appName, 'settings-admin');
-        $t->assign("cloudURL", $this->config->getAppValue($this->appName, "cloudURL", "http://localhost:8080"));
+        $t->assign("cloudURL", $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000"));
         $t->assign("oauthname", $this->config->getAppValue($this->appName, "oauthname", "describo"));
         return $t;
     }
