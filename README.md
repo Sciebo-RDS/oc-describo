@@ -2,20 +2,28 @@
 
 # Installation
 
+For development, please start describo first with docker-compose, so the owncloud instance can use the same network. Then you can read further.
+
 ## Start / Stop with makefile
 
-This enable oauth2 and describo app within owncloud automatically and create an oauth2 client for describo with preset values.
+This enable oauth2 and describo app within owncloud automatically and create an oauth2 client for describo with preset values, so you can use the describo app right from the first start without any configuration. *For development use only and for convenience.*
 
 ```bash
 make start
 make stop
 ```
 
+
 ## Start / Stop with docker-compose
+
+If you do not want to enable oauth2 and describo app, then you can use the following commands to start / stop container.
+
 ```bash
 docker-compose up -d
 docker-compose down
 ```
+
+But you have to manually add an oauth2 client via the admin panel interface.
 
 ### Configuration
 
@@ -35,7 +43,7 @@ Use the oauth2 secret as the describo secret in the configuration file.
 
 #### Describo
 
-If the describo instance does not run on the default host, you can change it on the describo admin-panel `http://localhost:8000/settings/admin?sectionid=describo`. Also you can change the oauth2 client name, if you do not want to use `describo` as the name.
+If the describo instance does not run on the default host, you can change it on the describo admin-panel `http://localhost:8000/settings/admin?sectionid=describo`. Also you can change the oauth2 client name, if you do not want to use `describo` as the client name.
 
 ### Links to know
 
@@ -48,6 +56,10 @@ For jwt validation, you need a publickey. This can be requested here. JWT-Algori
 ### Getting started
 
 Now, you can open the top-left menu and open the `Describo App`. If everything is correct, you should be redirected to authorize the describo app to access your files. After this, you will be redirect back to your app and the configured iframe source will be shown.
+
+#### Describo session stuff
+
+The sessionId for describo will be created, when you open the describo app within ownCloud and you have a valid access_token. Only when this constraints are fulfilled, [this code](https://github.com/Sciebo-RDS/oc-describo/blob/34976fa1f8062ce86de9c959f998ce500e0828bb/php/lib/Controller/PageController.php#L102) will be executed.
 
 #### Javascript stuff
 
