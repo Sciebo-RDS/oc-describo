@@ -31,6 +31,8 @@ cp ./php /var/www/owncloud/apps/describo -r
 If you do not use the makefile (or you want to use it in production), you have to create an oauth2 client on your own.
 These can be done in the adminpanel `http://localhost:8000/settings/admin?sectionid=authentication`. Please set `describo` as the name of your new client. Otherwise you have to change the name of your client on the describo admin-panel (described in the next section).
 
+Use the oauth2 secret as the describo secret in the configuration file.
+
 #### Describo
 
 If the describo instance does not run on the default host, you can change it on the describo admin-panel `http://localhost:8000/settings/admin?sectionid=describo`. Also you can change the oauth2 client name, if you do not want to use `describo` as the name.

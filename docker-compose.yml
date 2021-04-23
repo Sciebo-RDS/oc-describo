@@ -1,5 +1,10 @@
 version: "2.1"
 
+networks:
+  default:
+    external:
+      name: describo-online_default
+
 volumes:
   files:
     driver: local
