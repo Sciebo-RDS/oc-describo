@@ -46,3 +46,25 @@ For jwt validation, you need a publickey. This can be requested here. JWT-Algori
 ### Getting started
 
 Now, you can open the top-left menu and open the `Describo App`. If everything is correct, you should be redirected to authorize the describo app to access your files. After this, you will be redirect back to your app and the configured iframe source will be shown.
+
+#### Javascript stuff
+
+If you want to request user informations and send it to the describo iframe, you can request within javascript ownCloud namespace with the following codesnippet:
+
+```javascript
+$.get(
+	OC.generateUrl("/apps/rds/api/1.0/informations")
+).done((response) => {
+	$("#describo-iframe").contentWindow.postMessage({
+        jwt: response.jwt
+    })
+})
+```
+
+### ownCloud stuff
+
+If you want to add the `access_token` to the url, you can add the following snippet in `php/lib/Controller/PageController#index` before the last `return TemplateResponse`:
+
+```php
+$iframeUrl .= "?access_token=" . $access_token;
+```
