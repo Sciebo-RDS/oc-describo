@@ -6,7 +6,7 @@ For development, please start describo first with docker-compose, so the ownclou
 
 ## Start / Stop with makefile
 
-This enable oauth2 and describo app within owncloud automatically and create an oauth2 client for describo with preset values, so you can use the describo app right from the first start without any configuration. *For development use only and for convenience.*
+This enable oauth2 and describo app within owncloud automatically and create an oauth2 client for describo with preset values, so you can use the describo app right from the first start without any configuration. Because describo needs an email, the script also sets an invalid email address. *For development use only and for convenience.*
 
 ```bash
 make start
@@ -43,7 +43,7 @@ Use the oauth2 secret as the describo secret in the configuration file.
 
 #### Describo
 
-If the describo instance does not run on the default host, you can change it on the describo admin-panel `http://localhost:8000/settings/admin?sectionid=describo`. Also you can change the oauth2 client name, if you do not want to use `describo` as the client name.
+If the describo instance does not run on the default host, you can change it on the describo admin-panel `http://localhost:8000/settings/admin?sectionid=describo`. Also you can change the oauth2 client name, if you do not want to use `describo` as the client name. As an addition, you can change the values in the [configuration.php](https://github.com/Sciebo-RDS/oc-describo/blob/main/php/configuration.php) aswell. Then this values will be used as the default values. If you do not set anything in the admin page, the values from the `configuration.php` will be used. Otherwise, the values in admin page will be used over the `configuration.php` values. For convenience, you see the used values in the admin page right from the startup.
 
 ### Links to know
 
