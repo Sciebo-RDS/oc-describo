@@ -16,6 +16,8 @@ use OCA\OAuth2\Controller\{OAuthApiController};
 use OCP\ILogger;
 use OCP\IConfig;
 
+require("describo/configuration.php");
+
 /**
 - Define a new page controller
  */
@@ -101,8 +103,8 @@ class PageController extends Controller
 
     private function describoSession()
     {
-        $url = $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000") . "/api/session/application";
-        $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", "describo"));
+        $url = $this->config->getAppValue($this->appName, "apiURL", "http://ui:9000");
+        $secret = $this->config->getAppValue($this->appName, "describoSecretKey", "describo");
 
         $user = \OC::$server->getUserSession()->getUser();
         $data = [
@@ -132,7 +134,7 @@ class PageController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         $headers = array(
             'Content-Type: application/json',
-            'Authorization: Bearer: ' .  $client->getSecret()
+            'Authorization: Bearer ' .  $secret
         );
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -141,15 +143,12 @@ class PageController extends Controller
         $server_output = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        var_dump($httpcode);
-        var_dump($server_output);
-        var_dump($payload);
-        print(curl_error($ch));
         curl_close($ch);
 
-        $response = json_decode($server_output);
-        $this->config->setUserValue($this->userId, $this->appName, "descSessionId", $response["sessionId"]);
-        return $response["sessionId"];
+        $json = json_decode($server_output, true);
+        $sessId = $json["sessionId"];
+        $this->config->setUserValue($this->userId, $this->appName, "descSessionId", $sessId);
+        return $sessId;
     }
 
     /**
@@ -158,7 +157,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $iframeUrl = $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000");
+        $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
         $url = parse_url($iframeUrl);
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
         $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
