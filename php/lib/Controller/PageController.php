@@ -136,6 +136,7 @@ class PageController extends Controller
             "avatarImage" => $user->getAvatarImage($user),
             "quota" => $user->getQuota(),
             "searchTerms" => $user->getSearchTerms(),
+            "webdav_type" => "owncloud",
             "webdav" => my_server_url() . "/remote.php/webdav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
             "expires_on" => $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1)
