@@ -9,6 +9,8 @@ use OCP\Settings\ISettings;
 use OCP\Template;
 use OCP\IConfig;
 
+require("describo/configuration.php");
+
 
 class AdminPanel implements ISettings
 {
@@ -53,10 +55,26 @@ class AdminPanel implements ISettings
      */
     public function getPanel()
     {
-        $userId = $this->userSession->getUser()->getUID();
         $t = new Template($this->appName, 'settings-admin');
-        $t->assign("cloudURL", $this->config->getAppValue($this->appName, "cloudURL", "http://ui:9000"));
-        $t->assign("oauthname", $this->config->getAppValue($this->appName, "oauthname", "describo"));
+
+        $assignValue = function ($field) use ($t) {
+            $const = constant("\OCA\Describo\\" . $field);
+            $val = $this->config->getAppValue($this->appName, $field);
+
+            if ($val == null || empty($val)) {
+                $this->config->setAppValue($this->appName, $field, $const);
+                $val = $const;
+            }
+            
+            $t->assign($field, $val);
+        };
+
+        $assignValue("apiURL");
+        $assignValue("uiURL");
+        $assignValue("describoSecretKey");
+        $assignValue("oauthname");
+        $assignValue("documentation");
+
         return $t;
     }
 
