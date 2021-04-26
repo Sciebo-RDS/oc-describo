@@ -103,6 +103,24 @@ class PageController extends Controller
 
     private function describoSession()
     {
+        function my_server_url()
+        {
+            $server_name = $_SERVER['SERVER_NAME'];
+
+            if (!in_array($_SERVER['SERVER_PORT'], [80, 443])) {
+                $port = ":$_SERVER[SERVER_PORT]";
+            } else {
+                $port = '';
+            }
+
+            if (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on' || $_SERVER['HTTPS'] == '1')) {
+                $scheme = 'https';
+            } else {
+                $scheme = 'http';
+            }
+            return $scheme . '://' . $server_name . $port;
+        }
+
         $url = $this->config->getAppValue($this->appName, "apiURL", "http://ui:9000");
         $secret = $this->config->getAppValue($this->appName, "describoSecretKey", "describo");
 
@@ -118,6 +136,7 @@ class PageController extends Controller
             "avatarImage" => $user->getAvatarImage($user),
             "quota" => $user->getQuota(),
             "searchTerms" => $user->getSearchTerms(),
+            "webdav" => my_server_url() . "/remote.php/webdav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
             "expires_on" => $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1)
         ];
@@ -128,6 +147,7 @@ class PageController extends Controller
             "session" => $data
         ]);
 
+        var_dump($payload);
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
