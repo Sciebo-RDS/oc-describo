@@ -147,7 +147,6 @@ class PageController extends Controller
             "session" => $data
         ]);
 
-        var_dump($payload);
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
