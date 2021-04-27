@@ -126,8 +126,8 @@ class PageController extends Controller
 
         $user = \OC::$server->getUserSession()->getUser();
         $data = [
-            "eMail" => $user->getEMailAddress(),
-            "userName" => $user->getUserName(),
+            "email" => $user->getEMailAddress(),
+            "name" => $user->getUserName(),
             "displayName" => $user->getDisplayName(),
             "accountId" => $user->getAccountId(),
             "UID" => $user->getUID(),
@@ -143,9 +143,11 @@ class PageController extends Controller
         ];
 
         $payload = json_encode([
-            "email" => $data["eMail"],
-            "name" => $data["userName"],
-            "session" => $data
+            "email" => $data["email"],
+            "name" => $data["name"],
+            "session" => [
+                'owncloud' => $data
+            ]
         ]);
 
         $ch = curl_init();
