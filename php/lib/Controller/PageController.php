@@ -80,7 +80,7 @@ class PageController extends Controller
     public function authorize($code, $access_token, $refresh_token, $expires_in)
     {
         if ($code !== null) {
-            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", "describo"));
+            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("\OCA\Describo\\oauthname")));
             $_SERVER["PHP_AUTH_USER"] = $client->getIdentifier();
             $_SERVER["PHP_AUTH_PW"] = $client->getSecret();
             $genToken = $this->oauthApi->generateToken(
@@ -121,8 +121,8 @@ class PageController extends Controller
             return $scheme . '://' . $server_name . $port;
         }
 
-        $url = $this->config->getAppValue($this->appName, "apiURL", "http://ui:9000");
-        $secret = $this->config->getAppValue($this->appName, "describoSecretKey", "describo");
+        $url = $this->config->getAppValue($this->appName, "apiURL", constant("\OCA\Describo\\apiURL"));
+        $secret = $this->config->getAppValue($this->appName, "describoSecretKey", constant("\OCA\Describo\\describoSecretKey"));
 
         $user = \OC::$server->getUserSession()->getUser();
         $data = [
@@ -201,7 +201,7 @@ class PageController extends Controller
 
         $redirect = false;
         if (\time() > intval($expires_on) || $access_token === null) {
-            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", "describo"));
+            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("\OCA\Describo\\oauthname")));
             $clientId = $client->getId();
             echo $access_token;
 
