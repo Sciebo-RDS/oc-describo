@@ -75,32 +75,6 @@ class DescriboApiController extends ApiController
     }
 
     /**
-     * @CORS
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     *
-     * Returns the user informations
-     *
-     * @return object the informations as jwt
-     */
-    public function informations()
-    {
-        return $this->handleNotFound(function () {
-            $user = \OC::$server->getUserSession()->getUser();
-            $data = [
-                "email" => $user->getEMailAddress(),
-                "name" => $user->getUserName(),
-                "user_id" => $user->getUID(),
-                "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
-            ];
-
-            $token = \Firebase\JWT\JWT::encode($data, $this->private_key, 'RS256');
-
-            return array_merge($data, ["jwt" => $token]);
-        });
-    }
-
-    /**
      * @PublicPage
      * @CORS
      *
