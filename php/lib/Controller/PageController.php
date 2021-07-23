@@ -104,26 +104,6 @@ class PageController extends Controller
 
     private function describoSession()
     {
-        /*
-        function my_server_url()
-        {
-            $server_name = $_SERVER['SERVER_NAME'];
-
-            if (!in_array($_SERVER['SERVER_PORT'], [80, 443])) {
-                $port = ":$_SERVER[SERVER_PORT]";
-            } else {
-                $port = '';
-            }
-
-            if (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on' || $_SERVER['HTTPS'] == '1')) {
-                $scheme = 'https';
-            } else {
-                $scheme = 'http';
-            }
-            return $scheme . '://' . $server_name . $port;
-        }
-        */
-
         $describoApiUrl = $this->config->getAppValue($this->appName, "apiURL", constant("\OCA\Describo\\apiURL"));
         $owncloudUrl = $this->config->getAppValue($this->appName, "internalOwncloudURL", constant("\OCA\Describo\\internalOwncloudURL"));
         $secret = $this->config->getAppValue($this->appName, "describoSecretKey", constant("\OCA\Describo\\describoSecretKey"));
@@ -173,16 +153,19 @@ class PageController extends Controller
     public function index()
     {
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
-        $iframeUrlArr = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
 
-        foreach ($iframeUrlArr as $iframeUrl) {
-            $url = parse_url($iframeUrl);
+        $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
+        $providers = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\oauthProvidersURL"));
+
+        foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
+            $url = parse_url($mergedUrl);
+
             $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
             $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"] . ":" . $url["port"];
+
             $policy->addAllowedConnectDomain($http);
             $policy->addAllowedConnectDomain($ws);
-            $policy->addAllowedConnectDomain($http);
-            $policy->addAllowedConnectDomain($ws);
+
             $policy->addAllowedScriptDomain($http);
             $policy->addAllowedFrameDomain($http);
         }

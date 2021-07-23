@@ -13,7 +13,10 @@ const internalOwncloudURL = "http://owncloud_server:8080";
 
 # Owncloud will use this url as the iframe source.
 # This url have to be available for the user of ownCloud / describo from public network.
-const uiURL = ["http://localhost:9000/application"];
+const uiURL = "http://localhost:9000/application";
+
+# You need to specify the url for e.g. oauth2 workflow, so the browser allows the redirection.
+const oauthProvidersURL = ["http://localhost:8000"];
 
 # This have to be the same secret, which you specified in describo configuration
 const describoSecretKey = "IAMSECRET";
