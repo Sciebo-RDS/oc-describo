@@ -88,18 +88,10 @@ class DescriboApiController extends ApiController
         return $this->handleNotFound(function () {
             $user = \OC::$server->getUserSession()->getUser();
             $data = [
-                "eMail" => $user->getEMailAddress(),
-                "userName" => $user->getUserName(),
-                "displayName" => $user->getDisplayName(),
-                "accountId" => $user->getAccountId(),
-                "UID" => $user->getUID(),
-                "lastLogin" => $user->getLastLogin(),
-                "home" => $user->getHome(),
-                "avatarImage" => $user->getAvatarImage($user),
-                "quota" => $user->getQuota(),
-                "searchTerms" => $user->getSearchTerms(),
+                "email" => $user->getEMailAddress(),
+                "name" => $user->getUserName(),
+                "user_id" => $user->getUID(),
                 "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
-                "expires_on" => $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1)
             ];
 
             $token = \Firebase\JWT\JWT::encode($data, $this->private_key, 'RS256');

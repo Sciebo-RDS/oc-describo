@@ -18,6 +18,7 @@ use OCP\IConfig;
 
 require("describo/configuration.php");
 
+
 /**
 - Define a new page controller
  */
@@ -128,18 +129,9 @@ class PageController extends Controller
         $data = [
             "email" => $user->getEMailAddress(),
             "name" => $user->getUserName(),
-            "displayName" => $user->getDisplayName(),
-            "accountId" => $user->getAccountId(),
-            "UID" => $user->getUID(),
-            "lastLogin" => $user->getLastLogin(),
-            "home" => $user->getHome(),
-            "avatarImage" => $user->getAvatarImage($user),
-            "quota" => $user->getQuota(),
-            "searchTerms" => $user->getSearchTerms(),
-            "webdav_type" => "owncloud",
-            "webdav" => my_server_url() . "/remote.php/webdav",
+            "user_id" => $user->getUID(),
+            "url" => my_server_url() . "/remote.php/webdav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
-            "expires_on" => $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1)
         ];
 
         $payload = json_encode([
