@@ -8,6 +8,9 @@ namespace OCA\Describo;
 # This url have to be available for the ownCloud instance through local network.
 const apiURL = "http://api:8080/session/application";
 
+# Define the URL for the Describo API to talk to the owncloud service internally 
+const internalOwncloudURL = "http://owncloud_server:8080";
+
 # Owncloud will use this url as the iframe source.
 # This url have to be available for the user of ownCloud / describo from public network.
 const uiURL = "http://localhost:9000/application";

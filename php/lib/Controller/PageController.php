@@ -104,6 +104,7 @@ class PageController extends Controller
 
     private function describoSession()
     {
+        /*
         function my_server_url()
         {
             $server_name = $_SERVER['SERVER_NAME'];
@@ -121,8 +122,10 @@ class PageController extends Controller
             }
             return $scheme . '://' . $server_name . $port;
         }
+        */
 
-        $url = $this->config->getAppValue($this->appName, "apiURL", constant("\OCA\Describo\\apiURL"));
+        $describoApiUrl = $this->config->getAppValue($this->appName, "apiURL", constant("\OCA\Describo\\apiURL"));
+        $owncloudUrl = $this->config->getAppValue($this->appName, "internalOwncloudURL", constant("\OCA\Describo\\internalOwncloudURL"));
         $secret = $this->config->getAppValue($this->appName, "describoSecretKey", constant("\OCA\Describo\\describoSecretKey"));
 
         $user = \OC::$server->getUserSession()->getUser();
@@ -130,7 +133,7 @@ class PageController extends Controller
             "email" => $user->getEMailAddress(),
             "name" => $user->getUserName(),
             "user_id" => $user->getUID(),
-            "url" => my_server_url() . "/remote.php/webdav",
+            "url" =>  $owncloudUrl . "/remote.php/dav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
         ];
 
@@ -144,7 +147,7 @@ class PageController extends Controller
 
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $describoApiUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
         $headers = array(
             'Content-Type: application/json',
