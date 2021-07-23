@@ -172,17 +172,21 @@ class PageController extends Controller
      */
     public function index()
     {
-        $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
-        $url = parse_url($iframeUrl);
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
-        $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
-        $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"] . ":" . $url["port"];
-        $policy->addAllowedConnectDomain($http);
-        $policy->addAllowedConnectDomain($ws);
-        $policy->addAllowedConnectDomain($http);
-        $policy->addAllowedConnectDomain($ws);
-        $policy->addAllowedScriptDomain($http);
-        $policy->addAllowedFrameDomain($http);
+        $iframeUrlArr = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
+
+        foreach ($iframeUrlArr as $iframeUrl) {
+            $url = parse_url($iframeUrl);
+            $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
+            $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"] . ":" . $url["port"];
+            $policy->addAllowedConnectDomain($http);
+            $policy->addAllowedConnectDomain($ws);
+            $policy->addAllowedConnectDomain($http);
+            $policy->addAllowedConnectDomain($ws);
+            $policy->addAllowedScriptDomain($http);
+            $policy->addAllowedFrameDomain($http);
+        }
+
         \OC::$server->getContentSecurityPolicyManager()->addDefaultPolicy($policy);
 
         $expires_on = $this->config->getUserValue($this->userId, $this->appName, "expires_on", -1);

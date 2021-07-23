@@ -3,7 +3,12 @@ $(document).ready(function () {
 	function save(app, selector) {
 		const sel = $(selector)
 
-		OC.AppConfig.setValue(app, sel.attr('name'), sel.val());
+		let val = sel.val()
+		if (sel.attr('name') == "uiURL") {
+			val = [val]
+		}
+
+		OC.AppConfig.setValue(app, sel.attr('name'), val);
 	}
 
 	$('#describo_submit').on('click', function (event) {
