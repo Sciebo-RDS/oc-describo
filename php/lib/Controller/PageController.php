@@ -130,16 +130,14 @@ class PageController extends Controller
 
         $user = \OC::$server->getUserSession()->getUser();
         $data = [
-            "email" => $user->getEMailAddress(),
-            "name" => $user->getUserName(),
             "user_id" => $user->getUID(),
             "url" =>  $owncloudUrl . "/remote.php/dav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
         ];
 
         $payload = json_encode([
-            "email" => $data["email"],
-            "name" => $data["name"],
+            "email" => $user->getEMailAddress(),
+            "name" => $user->getUserName(),
             "session" => [
                 'owncloud' => $data
             ]
