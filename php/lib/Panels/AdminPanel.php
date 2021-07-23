@@ -59,7 +59,7 @@ class AdminPanel implements ISettings
 
         $assignValue = function ($field) use ($t) {
             $const = constant("\OCA\Describo\\" . $field);
-            $val = $this->config->getAppValue($this->appName, $field);
+            $val = $this->config->getAppValue($this->appName, $field, null);
 
             if ($val == null || empty($val)) {
                 $this->config->setAppValue($this->appName, $field, $const);
