@@ -155,7 +155,7 @@ class PageController extends Controller
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
 
         $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
-        $providers = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\oauthProvidersURL"));
+        $providers = $this->config->getAppValue($this->appName, "oauthProvidersURL", constant("\OCA\Describo\\oauthProvidersURL"));
 
         foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
             $url = parse_url($mergedUrl);
