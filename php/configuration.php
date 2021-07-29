@@ -9,7 +9,7 @@ namespace OCA\Describo;
 define("OCA\Describo\apiURL", getenv("DESCRIBO_API_URL") ??  "http://api:8080/session/application");
 
 # Define the URL for the Describo API to talk to the owncloud service internally 
-define("OCA\Describo\internalOwncloudURL", getenv("OWNCLOUD_INTERNAL_URL") ?? "http://localhost:8080");
+define("OCA\Describo\internalOwncloudURL", getenv("OWNCLOUD_INTERNAL_URL") ?? "http://owncloud_server:8080");
 
 # Owncloud will use this url as the iframe source.
 # This url have to be available for the user of ownCloud / describo from public network.
