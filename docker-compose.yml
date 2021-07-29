@@ -37,6 +37,11 @@ services:
       - OWNCLOUD_MYSQL_UTF8MB4=true
       - OWNCLOUD_REDIS_ENABLED=true
       - OWNCLOUD_REDIS_HOST=redis
+      - OWNCLOUD_INTERNAL_URL=${OWNCLOUD_INTERNAL_URL}
+      - DESCRIBO_APP_URL=${DESCRIBO_APP_URL}
+      - DESCRIBO_API_URL=${DESCRIBO_API_URL}
+      - DESCRIBO_APP_SECRET=${DESCRIBO_APP_SECRET}
+      - OWNCLOUD_URL=${OWNCLOUD_URL}
     healthcheck:
       test: ["CMD", "/usr/bin/healthcheck"]
       interval: 30s

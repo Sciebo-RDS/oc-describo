@@ -81,7 +81,7 @@ class PageController extends Controller
     public function authorize($code, $access_token, $refresh_token, $expires_in)
     {
         if ($code !== null) {
-            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("\OCA\Describo\\oauthname")));
+            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("OCA\Describo\oauthname")));
             $_SERVER["PHP_AUTH_USER"] = $client->getIdentifier();
             $_SERVER["PHP_AUTH_PW"] = $client->getSecret();
             $genToken = $this->oauthApi->generateToken(
@@ -104,9 +104,9 @@ class PageController extends Controller
 
     private function describoSession()
     {
-        $describoApiUrl = $this->config->getAppValue($this->appName, "apiURL", constant("\OCA\Describo\\apiURL"));
-        $owncloudUrl = $this->config->getAppValue($this->appName, "internalOwncloudURL", constant("\OCA\Describo\\internalOwncloudURL"));
-        $secret = $this->config->getAppValue($this->appName, "describoSecretKey", constant("\OCA\Describo\\describoSecretKey"));
+        $describoApiUrl = $this->config->getAppValue($this->appName, "apiURL", constant("OCA\Describo\apiURL"));
+        $owncloudUrl = $this->config->getAppValue($this->appName, "internalOwncloudURL", constant("OCA\Describo\internalOwncloudURL"));
+        $secret = $this->config->getAppValue($this->appName, "describoSecretKey", constant("OCA\Describo\describoSecretKey"));
 
         $user = \OC::$server->getUserSession()->getUser();
         $data = [
@@ -154,8 +154,8 @@ class PageController extends Controller
     {
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
 
-        $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("\OCA\Describo\\uiURL"));
-        $providers = $this->config->getAppValue($this->appName, "oauthProvidersURL", constant("\OCA\Describo\\oauthProvidersURL"));
+        $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("OCA\Describo\uiURL"));
+        $providers = $this->config->getAppValue($this->appName, "oauthProvidersURL", constant("OCA\Describo\oauthProvidersURL"));
 
         foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
             $url = parse_url($mergedUrl);
@@ -181,7 +181,7 @@ class PageController extends Controller
 
         $redirect = false;
         if (\time() > intval($expires_on) || $access_token === null) {
-            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("\OCA\Describo\\oauthname")));
+            $client = $this->clientMapper->findByName($this->config->getAppValue($this->appName, "oauthname", constant("OCA\Describo\oauthname")));
             $clientId = $client->getId();
             echo $access_token;
 

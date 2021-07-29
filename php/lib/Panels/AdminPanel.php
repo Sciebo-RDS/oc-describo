@@ -58,7 +58,7 @@ class AdminPanel implements ISettings
         $t = new Template($this->appName, 'settings-admin');
 
         $assignValue = function ($field) use ($t) {
-            $const = constant("\OCA\Describo\\" . $field);
+            $const = constant("OCA\Describo\\" . $field);
             $val = $this->config->getAppValue($this->appName, $field, null);
 
             if ($val == null || empty($val)) {
