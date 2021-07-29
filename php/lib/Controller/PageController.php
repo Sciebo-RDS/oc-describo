@@ -102,7 +102,7 @@ class PageController extends Controller
         );
     }
 
-    private function describoSession()
+    private function describoSession($folderpath = null)
     {
         $describoApiUrl = $this->config->getAppValue($this->appName, "apiURL", constant("OCA\Describo\apiURL"));
         $owncloudUrl = $this->config->getAppValue($this->appName, "internalOwncloudURL", constant("OCA\Describo\internalOwncloudURL"));
@@ -114,6 +114,14 @@ class PageController extends Controller
             "url" =>  $owncloudUrl . "/remote.php/dav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
         ];
+
+        if ($folderpath !== null) {
+            if (!str_starts_with($folderpath, "/")) {
+                $folderpath = "/" . $folderpath;
+            }
+            
+            $data["folder"] = $folderpath;
+        }
 
         $payload = json_encode([
             "email" => $user->getEMailAddress(),
@@ -150,7 +158,7 @@ class PageController extends Controller
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function index()
+    public function index($folderpath = null)
     {
         $policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
 
@@ -223,7 +231,7 @@ class PageController extends Controller
             }
         }
 
-        $iframeUrl .= "?sid=" . $this->describoSession();
+        $iframeUrl .= "?sid=" . $this->describoSession($folderpath);
         return new TemplateResponse('describo', "main.research", ["iframeSource" => $iframeUrl]);
     }
 }

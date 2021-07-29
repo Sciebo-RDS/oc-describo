@@ -31,7 +31,8 @@ $policy->addAllowedFrameDomain('http://localhost:8000');
 use OCP\Util;
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
+Util::addStyle("describo", "style");
 $eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', function () {
     # TODO: Add here describo filemenu stuff.
-    # Util::addScript('Describo', 'fileActions');
+    Util::addScript('describo', 'fileActions');
 });
