@@ -113,6 +113,7 @@ class PageController extends Controller
             "user_id" => $user->getUID(),
             "url" =>  $owncloudUrl . "/remote.php/dav",
             "access_token" => $this->config->getUserValue($this->userId, $this->appName, "access_token", null),
+            "refresh_token" => $this->config->getUserValue($this->userId, $this->appName, "refresh_token", null),
         ];
 
         if ($folderpath !== null) {
