@@ -22,7 +22,7 @@ define("OCA\Describo\oauthProvidersURL", [getenv("OWNCLOUD_URL") ?? "http://loca
 define("OCA\Describo\describoSecretKey", getenv("DESCRIBO_APP_SECRET") ?? "IAMSECRET");
 
 # This field can be changed, if you do not want to use the default oauth2 name for describo client.
-const oauthname = "describo";
+const oauthname = "describo_oc_app";
 
 # This field sets the url, which will be opened, when you click on the "i" on the describo admin page next to the site title.
 # Helpful for shortcuts.
