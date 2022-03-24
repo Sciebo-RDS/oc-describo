@@ -55,7 +55,7 @@ For jwt validation, you need a publickey. This can be requested here. JWT-Algori
 
 ### Getting started
 
-Now, you can open the top-left menu and open the `Describo App`. If everything is correct, you should be redirected to authorize the describo app to access your files. After this, you will be redirect back to your app and the configured iframe source will be shown.
+Now, you can open the top-left menu and open the `Describo` App. If everything is correct, you should be redirected to authorize the describo app to access your files. After this, you will be redirect back to your app and the configured iframe source will be shown.
 
 #### Describo session stuff
 
