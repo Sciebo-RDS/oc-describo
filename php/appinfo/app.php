@@ -1,7 +1,7 @@
 <?php
 
 $policy = new OCP\AppFramework\Http\EmptyContentSecurityPolicy();
-$policy->addAllowedFrameDomain('http://localhost:8000');
+$policy->addAllowedFrameDomain(OCP\Config::getAppValue("describo", "uiURL", constant("OCA\Describo\uiURL")));
 
 \OC::$server->getContentSecurityPolicyManager()->addDefaultPolicy($policy);
 // https://gist.github.com/butonic/4e6d050b778866e3aa99af14d9474613

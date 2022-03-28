@@ -145,7 +145,7 @@ class PageController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $server_output = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpcode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
         curl_close($ch);
 
