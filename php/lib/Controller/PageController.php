@@ -127,7 +127,7 @@ class PageController extends Controller
         $payload = json_encode([
             "email" => $user->getEMailAddress(),
             "name" => $user->getUserName(),
-            "session" => [
+            "service" => [
                 'owncloud' => $data
             ]
         ]);
