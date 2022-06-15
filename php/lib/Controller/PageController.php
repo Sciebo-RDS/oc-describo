@@ -165,6 +165,9 @@ class PageController extends Controller
 
         $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("OCA\Describo\uiURL"));
         $providers = $this->config->getAppValue($this->appName, "oauthProvidersURL", constant("OCA\Describo\oauthProvidersURL"));
+        if (!is_array($providers)) {
+            $providers = [$providers];
+        }
 
         foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
             $url = parse_url($mergedUrl);
