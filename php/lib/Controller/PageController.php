@@ -172,8 +172,12 @@ class PageController extends Controller
         foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
             $url = parse_url($mergedUrl);
 
-            $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
-            $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"] . ":" . $url["port"];
+            $http = $url["scheme"] . "://" . $url["host"];
+            $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"];
+            if (array_key_exists("port", $url)) {
+                $http = $http . ":" . $url["port"];
+                $ws  = $ws . ":" . $url["port"];
+            }
 
             $policy->addAllowedConnectDomain($http);
             $policy->addAllowedConnectDomain($ws);
