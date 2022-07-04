@@ -18,7 +18,7 @@ class AdminSection implements ISection {
 	}
 
 	public function getIconName() {
-		return 'research-black';
+		return 'research-white';
 	}
 
 	public function getID() {

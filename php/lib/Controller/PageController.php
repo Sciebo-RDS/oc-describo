@@ -145,7 +145,7 @@ class PageController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $server_output = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpcode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
         curl_close($ch);
 
@@ -165,12 +165,19 @@ class PageController extends Controller
 
         $iframeUrl = $this->config->getAppValue($this->appName, "uiURL", constant("OCA\Describo\uiURL"));
         $providers = $this->config->getAppValue($this->appName, "oauthProvidersURL", constant("OCA\Describo\oauthProvidersURL"));
+        if (!is_array($providers)) {
+            $providers = [$providers];
+        }
 
         foreach (array_merge([$iframeUrl], $providers) as $mergedUrl) {
             $url = parse_url($mergedUrl);
 
-            $http = $url["scheme"] . "://" . $url["host"] . ":" . $url["port"];
-            $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"] . ":" . $url["port"];
+            $http = $url["scheme"] . "://" . $url["host"];
+            $ws  = str_replace($url["scheme"], "http", "ws") . "://" . $url["host"];
+            if (array_key_exists("port", $url)) {
+                $http = $http . ":" . $url["port"];
+                $ws  = $ws . ":" . $url["port"];
+            }
 
             $policy->addAllowedConnectDomain($http);
             $policy->addAllowedConnectDomain($ws);
