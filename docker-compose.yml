@@ -2,8 +2,7 @@ version: "3"
 
 networks:
   default:
-    external:
-      name: describo-online_default
+    name: describo-online_default
 
 volumes:
   files:
