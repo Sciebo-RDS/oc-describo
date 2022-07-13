@@ -1,0 +1,54 @@
+{
+  "ui": {
+    "port": 9000,
+    "siteName": "Arkisto Platform - Describo",
+    "logo": "http://www.researchobject.org/ro-crate/assets/img/ro-crate.svg",
+    "login": "localhost",
+    "services": {
+      "localhost": false,
+      "s3": false,
+      "owncloud": true
+    },
+    "maxSessionLifetime": "86400",
+    "maxEntitiesPerTemplate": "100"
+  },
+  "api": {
+    "port": 8080,
+    "periodicProcessInterval": 300,
+    "typeDefinitions": "https://raw.githubusercontent.com/Arkisto-Platform/arkisto-type-definitions/master/types/type-definitions.json",
+    "typeDefinitionsLookup": "https://raw.githubusercontent.com/Arkisto-Platform/arkisto-type-definitions/master/types/type-definitions-lookup.json",
+    "session": {
+      "lifetime": {
+        "hours": 5
+      }
+    },
+    "identifierURISchemes": [
+      "http",
+      "https",
+      "file",
+      "arcp"
+    ],
+    "services": {
+      "owncloud": [
+        {
+          "name": "Local Test OwnCloud",
+          "url": "http://localhost:8000",
+          "internalUrl": "http://owncloud_server:8080",
+          "clientId": "AfRGQ5ywVhNQDlfGVbntjDOn2rLPTjg0SYEVBlvuYV4UrtDmmgIvKWktIMDP5Dqq",
+          "clientSecret": "WnxAqddPtPzX3lyCYijHi3pVs1HGpoumzTYSUWqrVfL0vT7E92JSzNTQABBzCaIm",
+          "redirectUri": "http://localhost:9000/owncloud-callback",
+          "oauthAuthoriseEndpoint": "/index.php/apps/oauth2/authorize",
+          "oauthTokenEndpoint": "/index.php/apps/oauth2/api/v1/token",
+          "webdavEndpoint": "/remote.php/dav"
+        }
+      ]
+    },
+    "applications": [
+      {
+        "name": "Local Test OwnCloud",
+        "url": "http://localhost:8000",
+        "secret": "IAMSECRET"
+      }
+    ]
+  }
+}

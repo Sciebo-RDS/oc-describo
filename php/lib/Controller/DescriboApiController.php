@@ -13,7 +13,7 @@ use OCP\IURLGenerator;
 
 use OCP\IRequest;
 use OCP\AppFramework\{
-    ApiController,
+    ApiController
 };
 use OCP\IConfig;
 

@@ -1,9 +1,8 @@
 version: "3"
 
-networks:
-  default:
-    external:
-      name: describo-online_default
+#networks:
+#  default:
+#    name: describo-online_default
 
 volumes:
   files:
@@ -13,6 +12,8 @@ volumes:
   backup:
     driver: local
   redis:
+    driver: local
+  database_volume:
     driver: local
 
 services:
@@ -81,3 +82,48 @@ services:
       retries: 5
     volumes:
       - redis:/data
+
+  db:
+    image: postgres:13-alpine
+    hostname: db
+    tty: true
+    environment:
+      TERM: "xterm-256color"
+      POSTGRES_DB: "describo"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      PGDATA: /postgresql/data
+    volumes:
+      - database_volume:/postgresql
+
+  api:
+    image: arkisto/describo-online-api:latest
+    hostname: api
+    tty: true
+    environment:
+      NODE_ENV: production
+      TERM: "xterm-256color"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_USER: "admin"
+      DB_PASSWORD: "admin"
+      DB_DATABASE: "describo"
+      ADMIN_PASSWORD: "adminpass"
+    volumes:
+      - ./describo-configuration.json:/srv/api/configuration.json
+      - ./profile.schema.json:/srv/profile.schema.json
+      - ./profiles:/srv/profiles
+      - $HOME:/home/$USER
+    ports:
+      - 8080:8080
+
+  ui:
+    image: arkisto/describo-online-ui:latest
+    hostname: ui
+    tty: true
+    environment:
+      TERM: "xterm-256color"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 9000:9000
